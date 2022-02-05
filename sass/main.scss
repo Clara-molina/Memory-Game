@@ -1,0 +1,91 @@
+@use "vars";
+
+html body {
+  font-family: sans-serif;
+  height: 100vh;
+  background-color: #ffe8d6;
+
+  .container {
+    text-align: center;
+
+    .title {
+      color: #cb997e;
+      font-size: 2.8em;
+      margin: 1em;
+    }
+
+    .popup {
+      color: #cb997e;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      font-size: 1.5em;
+
+      .popup-title {
+        margin-bottom: 1em;
+      }
+
+      .buttonStart {
+        margin: 2rem;
+        height: 6rem;
+        width: 6rem;
+        border-radius: 50%;
+        border: none;
+        font-size: 1.5em;
+        color: #6b705c;
+        background-color: #cb997e;
+        &:hover {
+          width: 6.5rem;
+        }
+      }
+    }
+
+    #result {
+      width: 880px;
+      margin: auto;
+      background-color: #a5a58d;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    .card {
+      background-color: #6b705c;
+      height: 100px;
+      width: 100px;
+      margin: 3px 6px 0 0;
+      border: none;
+      padding: 0;
+      border-radius: 5px;
+    }
+
+    .image {
+      height: 100px;
+      width: 100px;
+      margin: 3px 6px 0 0;
+    }
+
+    .progress-bar {
+      margin: 2rem auto;
+      width: 500px;
+    }
+
+    progress {
+      border-radius: 5px;
+      width: 500px;
+      height: 20px;
+    }
+
+    progress::-webkit-progress-bar {
+      background-color: #cb997e;
+      border-radius: 5px;
+    }
+    progress::-webkit-progress-value {
+      background-color: #9d0208;
+      border-radius: 5px;
+    }
+
+    .timer {
+      color: #cb997e;
+      font-size: 1.5em;
+    }
+  }
+}

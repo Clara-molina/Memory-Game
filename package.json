@@ -1,0 +1,15 @@
+{
+  "name": "memory-game",
+  "version": "1.0.0",
+  "description": "Memory game with JS",
+  "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Clara-molina/MemoryGame.git"
+  },
+  "scripts": {
+    "sass": "sass --watch ./sass/main.scss:./public/css/style.css"
+  },
+  "author": "Clara Molina",
+  "license": "ISC"
+}
