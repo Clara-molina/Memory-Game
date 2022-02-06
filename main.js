@@ -1,9 +1,8 @@
-// Je cible l'id présent dans le html
+// Cible les id présents dans le html
 const divResult = document.querySelector("#result");
-
 const progress = document.querySelector('#progress');
 
-// Je créer un tableau initial représentant les lignes et colones du jeu
+// Tableau initial représentant les lignes et colones du jeu
 var grid = [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -11,19 +10,19 @@ var grid = [
   [0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
-// Je crée un tableau avec des valeurs aléatoires
+// Tableau avec des valeurs aléatoires
 var gridResult = generateGrid();
 
-// je crée un tableau vide 
+// Tableau vide pour représenter la première carte retournée
 var oldSelection = [];
 
-// je crée une variable pour compter le nombre de carte retourné
+// Variable pour compter le nombre de carte retourné
 var nbCard = 0;
 
-// Je crée une variable pour compter le nombre de paire trouvé
+// Variable pour compter le nombre de paire trouvé
 var nbPair = 0;
 
-// Bouléen qui permet un nouveau clic ou non
+// Booléen qui permet un nouveau clic ou non
 var readyToClick = false;
 
 // Timer
@@ -37,8 +36,11 @@ var interval;
 var buttonStart = document.querySelector(".buttonStart");
 buttonStart.addEventListener("click", startGame)
 
+
 // ------------------
-// Start
+// Fonction Lance la partie
+// ------------------
+
 function startGame() {
   readyToClick = true;
   startTimer();
@@ -48,6 +50,8 @@ function startGame() {
 
 // ------------------
 // Fonction permettant d'afficher la grille du jeu
+// ------------------
+
 function boardGame() {
   // Je crée une variable représentant la grille de jeu
   var txt = "";
@@ -75,6 +79,8 @@ boardGame();
 
 // ------------------
 // Fonction permettant d'afficher les images en fonction du numero
+// ------------------
+
 function getImage(valeur) {
   var imgSrc = "img/";
 
@@ -119,17 +125,19 @@ function getImage(valeur) {
 
 // ------------------
 // Vérification des cartes retournées
+// ------------------
+
 function check(button) {
 
-  // Si le booléen est a vrai le joueur peut cliquer à nouveau
+  // Si le booléen est vrai le joueur peut cliquer à nouveau
   if (readyToClick) {
     nbCard++;
 
-    // Grace a substr je récupère 1 caractère à partir de l'index 0
+    // Grace à substr je récupère 1 caractère à partir de l'index 0
     var line = button.substr(0, 1);
     var colomun = button.substr(2, 1);
 
-    // Sur le boutton cliqué j'affiche l'image du tableau généré
+    // Sur le clique j'affiche l'image du tableau généré
     grid[line][colomun] = gridResult[line][colomun];
     boardGame();
 
@@ -137,7 +145,7 @@ function check(button) {
     if (nbCard > 1) {
       // Il ne peut plus cliquer sur d'autres cartes
       readyToClick = false;
-      // Le timeout affiche les cartes non identique pendant 750ms puis les repasse les cartes à 0.
+      // Le timeout affiche les cartes non identique pendant 750ms.
       setTimeout(() => {
         // Vérification des deux cartes, si elle ne sont pas identiques on les retournent
         if (grid[line][colomun] !== gridResult[oldSelection[0]][oldSelection[1]]) {
@@ -167,6 +175,8 @@ function check(button) {
 
 // ------------------
 // Génération aléatoire des images 
+// ------------------
+
 function generateGrid() {
   var tab = [];
   var nbImagePosition = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -192,6 +202,8 @@ function generateGrid() {
 
 // ------------------
 // Barre de progression et message si partie perdue
+// ------------------
+
 function progressBar() {
   for (var i = 0; i <= 100; i++) {
     setTimeout((function (arg) {
@@ -209,6 +221,8 @@ function progressBar() {
 
 // ------------------
 // Timer
+// ------------------
+
 function startTimer() {
   interval = setInterval(() => {
     timer.innerHTML = minute + " min " + second + " s";
@@ -225,23 +239,40 @@ function startTimer() {
 }
 
 // --------------------------------
-// REQUETE FETCH
+// REQUETE RECUPERATION DES SCORES
 // --------------------------------
+// TODO DOING 
 
 // Option de la requete HTTP
-// let fetchOptions = {
-//   method: 'GET',
-//   mode: 'cors',
-//   cache: 'no-cache'
-// };
+function getScore() {
 
-// fetch('http://localhost:8080', fetchOptions)
-// .then(function(response) {
-//   return response.json();
-// })
-// .then(function(responseJson) {
-// console.log(responseJson);
-// })
-// .catch(function(error) {
-//   console.log('error fetch');
-// });
+  let fetchOptions = {
+    method: 'GET',
+    mode: 'no-cors',
+    cache: 'no-cache'
+  };
+
+  fetch('http://localhost:8080/score', fetchOptions)
+    .then(function (response) {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Something went wrong');
+      }
+    })
+    .then(function (responseJson) {
+      console.log(responseJson);
+    })
+    .catch(function (error) {
+      console.log(error);
+
+    });
+
+}
+getScore();
+
+
+// --------------------------------
+// REQUETE ENVOI DU SCORE
+// --------------------------------
+// TODO
