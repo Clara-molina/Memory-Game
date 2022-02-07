@@ -12,3 +12,9 @@ Un jeu de mémoire réaliser en JavaScript et Sass.
 ● Le joueur gagne s'il arrive à découvrir toutes les paires avant la fin du temps imparti.
 
 ● Chaque temps de partie effectuée doit être sauvegardée en base de données. Avant le début du jeu, les meilleurs temps s’affichent à l’écran.
+
+
+## Tech
+- Backend réalisé avec Node.js (première utilisation)
+- Frontend réalisé en Java Script
+- Utilisation de SASS
