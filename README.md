@@ -18,3 +18,6 @@ Un jeu de mémoire réaliser en JavaScript et Sass.
 - Backend réalisé avec Node.js (première utilisation)
 - Frontend réalisé en Java Script
 - Utilisation de SASS
+
+
+<img width="1589" alt="Capture d’écran 2022-02-07 à 17 02 52" src="https://user-images.githubusercontent.com/84582904/152825103-6a2549f1-4dfe-4cd3-8f79-3e5bfee99377.png">
