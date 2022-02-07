@@ -1,9 +1,6 @@
-// Cible les id présents dans le html
-const divResult = document.querySelector("#result");
-const progress = document.querySelector('#progress');
 
 // Tableau initial représentant les lignes et colones du jeu
-var grid = [
+const grid = [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -11,34 +8,33 @@ var grid = [
 ];
 
 // Tableau avec des valeurs aléatoires
-var gridResult = generateGrid();
+const gridResult = generateGrid();
 
-// Tableau vide pour représenter la première carte retournée
-var oldSelection = [];
+// Représente les carte retournées
+let oldSelection = [];
 
 // Variable pour compter le nombre de carte retourné
-var nbCard = 0;
+let nbCard = 0;
 
 // Variable pour compter le nombre de paire trouvé
-var nbPair = 0;
+let nbPair = 0;
 
 // Booléen qui permet un nouveau clic ou non
-var readyToClick = false;
+let readyToClick = false;
 
 // Timer
-var second = 0;
-var minute = 0;
-var hour = 0;
-var timer = document.querySelector(".timer");
-var interval;
+let second = 0;
+let minute = 0;
+const timer = document.querySelector(".timer");
+let interval;
 
 // Bouton Start
-var buttonStart = document.querySelector(".buttonStart");
+const buttonStart = document.querySelector(".buttonStart");
 buttonStart.addEventListener("click", startGame)
 
 
 // ------------------
-// Fonction Lance la partie
+// Fonction qui lance la partie
 // ------------------
 
 function startGame() {
@@ -53,8 +49,11 @@ function startGame() {
 // ------------------
 
 function boardGame() {
+  // Cible l'id présents dans le html
+  const divResult = document.querySelector("#result");
+
   // Je crée une variable représentant la grille de jeu
-  var txt = "";
+  let txt = "";
 
   // Je parcours chaque elements du tableau (ici 4)
   for (var i = 0; i < grid.length; i++) {
@@ -82,7 +81,7 @@ boardGame();
 // ------------------
 
 function getImage(valeur) {
-  var imgSrc = "img/";
+  let imgSrc = "img/";
 
   switch (valeur) {
     case 1: imgSrc += "apricot.png";
@@ -134,8 +133,8 @@ function check(button) {
     nbCard++;
 
     // Grace à substr je récupère 1 caractère à partir de l'index 0
-    var line = button.substr(0, 1);
-    var colomun = button.substr(2, 1);
+    let line = button.substr(0, 1);
+    let colomun = button.substr(2, 1);
 
     // Sur le clique j'affiche l'image du tableau généré
     grid[line][colomun] = gridResult[line][colomun];
@@ -162,6 +161,7 @@ function check(button) {
         nbPair++;
         // Si toutes les pairs sont trouvées on affiche le message
         if (nbPair === 16) {
+          sendChrono(minute, second);
           alert("Bravo! Tu a fini la partie en " + minute + "minute et " + second + " secondes");
           window.location.reload();
         }
@@ -178,15 +178,15 @@ function check(button) {
 // ------------------
 
 function generateGrid() {
-  var tab = [];
-  var nbImagePosition = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  let tab = [];
+  let nbImagePosition = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   for (var i = 0; i < 4; i++) {
-    var line = [];
+    let line = [];
     for (var j = 0; j < 8; j++) {
-      var endGenerate = false;
+      let endGenerate = false;
       while (!endGenerate) {
-        var randomImage = Math.floor(Math.random() * 16);
+        let randomImage = Math.floor(Math.random() * 16);
         if (nbImagePosition[randomImage] < 2) {
           line.push(randomImage + 1);
           nbImagePosition[randomImage]++;
@@ -205,6 +205,9 @@ function generateGrid() {
 // ------------------
 
 function progressBar() {
+  // Cible l'id présents dans le html
+  const progress = document.querySelector('#progress');
+
   for (var i = 0; i <= 100; i++) {
     setTimeout((function (arg) {
       return function () {
@@ -238,41 +241,79 @@ function startTimer() {
   }, 1000);
 }
 
+
 // --------------------------------
 // REQUETE RECUPERATION DES SCORES
 // --------------------------------
-// TODO DOING 
 
-// Option de la requete HTTP
-function getScore() {
+const ul = document.querySelector("#score");
 
-  let fetchOptions = {
-    method: 'GET',
-    mode: 'no-cors',
-    cache: 'no-cache'
-  };
+let fetchOptions = {
+  method: 'GET',
+  mode: 'cors',
+  cache: 'no-cache',
+  headers: { 'Content-Type': 'application/json' }
+};
 
-  fetch('http://localhost:8080/score', fetchOptions)
-    .then(function (response) {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error('Something went wrong');
-      }
-    })
-    .then(function (responseJson) {
-      console.log(responseJson);
-    })
-    .catch(function (error) {
-      console.log(error);
-
-    });
-
+function createNode(element) {
+  return document.createElement(element);
 }
-getScore();
+
+function append(parent, el) {
+  return parent.appendChild(el);
+}
+
+fetch('http://localhost:8080/score', fetchOptions)
+  .then(function (response) {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw Error(`Request rejected with status ${response.status}`);
+    }
+  })
+  .then(function (responseJson) {
+    console.log(responseJson);
+
+    let scores = responseJson;
+    return scores.map(function (score) {
+      console.log(score);
+
+      let li = createNode('li');
+      li.innerHTML = `${score.chrono} s`;
+      append(ul, li);
+    })
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
 
 
 // --------------------------------
 // REQUETE ENVOI DU SCORE
 // --------------------------------
-// TODO
+// WIP
+
+function sendChrono() {
+  let data = {
+    chrono: minute + '.' + second
+  }
+
+  let fetchOptions = {
+    method: 'POST',
+    mode: 'cors',
+    body: data,
+    cache: 'no-cache',
+    headers: { 'Content-Type': 'application/json' }
+  };
+
+  fetch('http://localhost:8080/score/add', fetchOptions)
+    .then(function () {
+      console.log("OK")
+    })
+    .then(function () {
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
